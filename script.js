@@ -10,6 +10,9 @@ function loadGIF() {
 
             var myArr = JSON.parse(this.responseText);
             document.getElementById("inner").innerHTML = "<img src='" + myArr.data[0].images.original.url +"'>";
+            document.getElementById("second").style.backgroundImage = "url('" + myArr.data[0].images.original.url + "')";
+            //We need an if else function here to show if we approve or not
+            document.getElementById("second").innerHTML = "<img src='No-Nos-300x300.png'>";
             // for (x in myArr.data) {
             //     document.getElementById("inner").innerHTML += "<img src='" + myArr.data[x].images.original.url +"'>";
             // }
