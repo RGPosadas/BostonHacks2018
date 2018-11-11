@@ -6,6 +6,8 @@ import os
 from PIL import Image
 import glob
 from flask import request
+import urllib
+import json
 
 @app.route('/')
 def hello_world():
@@ -14,6 +16,7 @@ def hello_world():
 @app.route('/seizure')
 def isGifSeizure():
     gifUrl = request.args.get('gif_url')
+    print(gifUrl)
     name = "gifprod.gif"
     req.urlretrieve(gifUrl, name)
     return isSeizure(name)
@@ -26,6 +29,7 @@ def extractFrames(inGif, outFolder):
     nframes = 0
     average = 0
     spikes = []
+    differences = []
 
     while frame:
         frame.save( '%s/%s-%s.gif' % (outFolder, os.path.basename(inGif), nframes ) , 'GIF')
@@ -49,6 +53,11 @@ def extractFrames(inGif, outFolder):
             spikes.append(False)
         else: 
             spikes.append(True)
+
+        if (percentage >= 100):
+            differences.append(percentage-100)
+        else:
+            differences.append(100-percentage)
         
         average = average2
 
@@ -56,8 +65,7 @@ def extractFrames(inGif, outFolder):
         try:
             frame.seek( nframes )
         except EOFError:
-            return (nframes, spikes)
-            break
+            return (differences, spikes)
     return True
 
 def averageFrame(frame, width, height):
@@ -77,7 +85,7 @@ def averageFrame(frame, width, height):
 
 def isSeizure(gifName):
     output = "output"
-    nframes, spikes = extractFrames(gifName, output)
+    differences, spikes = extractFrames(gifName, output)
 
     numSpikes = 0
     for spike in spikes:
@@ -88,11 +96,17 @@ def isSeizure(gifName):
     for f in files:
         os.remove(f)
 
-    print("Number of frames " + str(nframes))    
+    print("Number of frames " + str(len(spikes)))    
     print("Number of spikes: " + str(numSpikes))
 
-    percentage = numSpikes/nframes * 100
-    if (percentage <= 10):
-        return False
-    else:
-        return True
+    percentage = numSpikes/len(spikes) * 100
+    
+    isSeizure = False
+    if (percentage > 10):
+        isSeizure = True
+    
+    data={}
+    data["differences"] = differences
+    data["is_seizure"] = isSeizure
+    data["num_frames"] = len(spikes)
+    return json.dumps(data)
