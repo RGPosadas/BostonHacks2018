@@ -4,38 +4,19 @@
         <title>GIPHY Image Processing</title>
     </head>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 <body>
 
-    <!-- <div class="search-container">
-        <form action="">
-          <input type="text" placeholder="Search GIPHY..." name="search">
-          <button type="submit"><i class=""></i></button>
-        </form>
-    </div> -->
-    <button id="button">Get text file</button>
+    <div class="search-box">
+    <input type="text" id="searchtext" name="" class="search-txt" placeholder="Search GIF..."/>
+    <a class="search-btn" onclick="loadGIF()">
+        <i class="fas fa-search"></i>
+    </a>
+    </div>
+    <div id ="inner"></div> -->
 
-    <script>
-        //create event listener, catch click of button
-        document.getElementById('button').addEventListener('click', loadText);
-
-        function loadText(){
-            //create XHR Object
-            var xhr = new XMLHttpRequest();
-            //open - type, url/file, async
-           xhr.open('GET', 'sample.txt', true);
-
-           xhr.onload = function(){
-                if(xhr.status == 200){
-                    console.log(this.responseText)
-                }
-           }
-           //Sends request
-           xhr.send();
-        }
-        
-
-    </script>
 
 </body>
 </html>
-
