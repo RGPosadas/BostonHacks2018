@@ -86,6 +86,7 @@ def averageFrame(frame, width, height):
 def isSeizure(gifName):
     output = "output"
     differences, spikes = extractFrames(gifName, output)
+    num_frames = len(spikes)+1
 
     numSpikes = 0
     for spike in spikes:
@@ -99,7 +100,7 @@ def isSeizure(gifName):
     print("Number of frames " + str(len(spikes)))    
     print("Number of spikes: " + str(numSpikes))
 
-    percentage = numSpikes/len(spikes) * 100
+    percentage = numSpikes/num_frames * 100
     
     isSeizure = False
     if (percentage > 10):
@@ -108,5 +109,5 @@ def isSeizure(gifName):
     data={}
     data["differences"] = differences
     data["is_seizure"] = isSeizure
-    data["num_frames"] = len(spikes)
+    data["num_frames"] = num_frames
     return json.dumps(data)
