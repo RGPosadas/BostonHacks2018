@@ -26,3 +26,7 @@ function loadGIF() {
 function changeImage(){
     document.getElementById("imgClickAndChange").src = image;
 }
+
+function apiCall(image) {
+    xhttp.open("GET", );
+}
