@@ -19,9 +19,20 @@
         document.getElementById('button').addEventListener('click', loadText);
 
         function loadText(){
-            console.log('button clicked');
+            //create XHR Object
+            var xhr = new XMLHttpRequest();
+            //open - type, url/file, async
+           xhr.open('GET', 'sample.txt', true);
+
+           xhr.onload = function(){
+                if(xhr.status == 200){
+                    console.log(this.responseText)
+                }
+           }
+           //Sends request
+           xhr.send();
         }
-        //
+        
 
     </script>
 
