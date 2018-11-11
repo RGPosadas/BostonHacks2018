@@ -7,8 +7,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-  </head>
+     <!--Include the java library for plotly-->
+	<script defer src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        
+    <script type="text/javascript">
+        function plot()
+        {
+            document.getElementById("graph").innerHTML = "";
+            var trace1 = {
+                x: [1,2,3,4],
+                y: [0.2, 0.4, 0.01, 0.8],
+                mode: 'lines',
+                name: 'Spike Intensity',
+                line: {
+                    color: 'blue',
+                    width: 2
+                }
+            };
+            var trace2 = {
+                x: [1,2,3,4],
+                y: [0.3525, 0.3525, 0.3525, 0.3525],
+                mode: 'lines',
+                name: 'Average Intensity',
+                line: {
+                    color: 'red',
+                    width: 4
+                }
+            };
+            
+            var layout = {
+                // autosize: true,
+                width: 1000,
+                height: 800,
+                // margin: {
+                //     l: 50,
+                //     r: 50,
+                //     b: 100,
+                //     t: 100,
+                //     pad: 4
+                // },
+                title: "GIF Intensity Chart", 
+                xaxis: {title: "Spike Number"}, 
+                yaxis: {title: "Spike Intensity"},		  
+            };
+            
+            var data = [trace1, trace2];
+        
+            Plotly.newPlot('graph', data, layout);
+        }
+    </script>
+   </head>
   <body>
     
     <!-- jumbotron -->
@@ -53,10 +103,11 @@
         </div>
     </div><!-- /GIF -->
       
-      <!-- schedule -->
-      <h1 class="display-4 text-center my-5 text-muted">GIF Intensity Chart</h1>
-      [Conference schedule goes here]
-      <!-- /schedule -->
+      <!-- Chart -->
+      <div id="graph">
+          <input type="submit" onclick="javascript:plot()" value="Show result of Python Program">
+      </div>
+      <!-- /Chart -->
    
       <!-- callout button -->
       <div class="container text-center">
