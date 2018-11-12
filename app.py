@@ -111,3 +111,7 @@ def isSeizure(gifName):
     data["is_seizure"] = isSeizure
     data["num_frames"] = num_frames
     return json.dumps(data)
+
+if __name__ == '__main__':
+   port = int(os.environ.get("PORT", 9000))
+   app.run(debug=True, port=port)
