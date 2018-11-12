@@ -113,5 +113,4 @@ def isSeizure(gifName):
     return json.dumps(data)
 
 if __name__ == '__main__':
-   port = int(os.environ.get("PORT", 9000))
-   app.run(debug=True, port=port)
+    app.run(debug=True, use_reloader=True)
