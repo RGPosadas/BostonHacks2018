@@ -5,20 +5,94 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-     <!--Include the java library for plotly-->
-	<script defer src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        .lds-ellipsis {
+          display: inline-block;
+          position: relative;
+          width: 64px;
+          height: 64px;
+        }
+        .lds-ellipsis div {
+          position: absolute;
+          top: 27px;
+          width: 11px;
+          height: 11px;
+          border-radius: 50%;
+          background: red;
+          animation-timing-function: cubic-bezier(0, 1, 1, 0);
+        }
+        .lds-ellipsis div:nth-child(1) {
+          left: 6px;
+          animation: lds-ellipsis1 0.6s infinite;
+        }
+        .lds-ellipsis div:nth-child(2) {
+          left: 6px;
+          animation: lds-ellipsis2 0.6s infinite;
+        }
+        .lds-ellipsis div:nth-child(3) {
+          left: 26px;
+          animation: lds-ellipsis2 0.6s infinite;
+        }
+        .lds-ellipsis div:nth-child(4) {
+          left: 45px;
+          animation: lds-ellipsis3 0.6s infinite;
+        }
+        @keyframes lds-ellipsis1 {
+          0% {
+            transform: scale(0);
+          }
+          100% {
+            transform: scale(1);
+          }
+        }
+        @keyframes lds-ellipsis3 {
+          0% {
+            transform: scale(1);
+          }
+          100% {
+            transform: scale(0);
+          }
+        }
+        @keyframes lds-ellipsis2 {
+          0% {
+            transform: translate(0, 0);
+          }
+          100% {
+            transform: translate(19px, 0);
+          }
+        }
+    </style>
         
     <script type="text/javascript">
         function plot()
         {  
+            document.getElementById("differences").value = getDifferences();
+            document.getElementById("frames").value = getFrames();
             document.getElementById("graph").innerHTML = "";
+            // alert(document.getElementById("differences").value);
+            // alert(document.getElementById("frames").value);
+            var start = 1;
+            var finish = document.getElementById("frames").value;
+
+            var arr = [];
+
+            for (var i=0; i<finish-1; i++){
+                // alert(i);
+                arr[i] = i
+            }
+
+            // while(start < finish+1){
+            //   arr.push(start++);
+            // }
+            // alert(arr);
+            var diffArr = document.getElementById("differences").value.split(",");
+            // alert(typeof arr);
+            // alert(typeof diffArr);
+            // diffArr = document.getElementById("differences").value;
+            // alert(diffArr);
             var trace1 = {
-                x: [1,2,3,4],
-                y: [0.2, 0.4, 0.01, 0.8],
+                x: arr,
+                y: diffArr,
                 mode: 'lines',
                 name: 'Spike Intensity',
                 line: {
@@ -26,16 +100,19 @@
                     width: 2
                 }
             };
-            var trace2 = {
-                x: [1,2,3,4],
-                y: [0.3525, 0.3525, 0.3525, 0.3525],
-                mode: 'lines',
-                name: 'Average Intensity',
-                line: {
-                    color: 'red',
-                    width: 4
-                }
-            };
+
+            // var constantArr = [];
+            // var mySum = 0;
+
+            // for (var i=0; i<arr.length; i++){
+            //     mySum = mySum + arr[i];
+            // }
+            // alert(mySum);
+
+            // var trace2 = {
+            //     x: arr,
+            //     y:
+            // }
             
             var layout = {
                 // autosize: true,
@@ -53,11 +130,27 @@
                 yaxis: {title: "Spike Intensity"},		  
             };
             
-            var data = [trace1, trace2];
+            var data = [trace1];
         
             Plotly.newPlot('graph', data, layout);
         }
     </script>
+
+       <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href= "{{ url_for('static',filename='style.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+     <!--Include the java library for plotly-->
+    <script defer src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.js"
+      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+      crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
    </head>
   <body>
     
@@ -72,9 +165,10 @@
         </div>        
       </div>
     </div><!-- /jumbotron -->
+
     
     <div class="container text-center">
-        <h1 class="display-1 mt-5">GIPHY</h1>
+        <h1 class="display-1 mt-5">GIPHY AURA</h1>
          <p class="lead text-center mb-5">Welcome to GIPHY's Seizure Warning Through Image Processing! </p>
     </div>
 
@@ -82,18 +176,18 @@
         <div class="input-group">
         <input type="text" class="form-control" id="searchtext" placeholder="Search GIF..." aria-label="Recipient's username" aria-describedby="button-addon2">
             <div class="input-group-btn">
-                <button class="btn btn-secondary" type="button" id="button-addon2" onclick="loadGIF()">Search</button>
+                <button class="btn btn-secondary" type="button" id="button-addon2">Search</button>
             </div>
         </div>
     </div>
-      
+
     <!-- GIF -->
     <div class="container text-center">
     <h1 id="speakers" class="display-4 text-center my-5 text-muted">GIF</h1>
             <div class="row">
             <div class="col-md-6 col-lg">
                 <div class="card mb-3">
-                    <img class="card-img-top" id="imgClickAndChange" onclick="changeImage()" src="img/GIF.JPG" alt="GIF">
+                    <img class="card-img-top" id="imgClickAndChange" src="{{ url_for('static',filename='GIF.JPG') }}" alt="GIF">
                     <div class="card-body">
                         <h4 class="card-title" id="title">Title</h4>
                         <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.!</p>
@@ -105,9 +199,12 @@
       
       
     <!-- Chart -->
+    <input type="hidden" name="differences" id="differences" />
+    <input type="hidden" name="frames" id="frames" />
+
      <div class="container text-center" id="graph">
            <a class="btn btn-outline-dark btn-lg mx-auto my-5" onclick="javascript:plot()" href="#top">Generate graph</a>
-         </div>
+    </div>
        <!-- /Chart -->
    
       <!-- callout button
@@ -125,12 +222,5 @@
 			</div><!-- /footer -->
       
     </div><!-- /.container -->
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="script.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
   </body>
 </html>
