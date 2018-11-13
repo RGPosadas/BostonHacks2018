@@ -9,7 +9,7 @@ function loadGIF() {
     var val = document.getElementById("searchtext").value
    
     var xhttp = new XMLHttpRequest();
-    xhttp.open("GET", "http://api.giphy.com/v1/gifs/search?q=" + val.split(' ').join('+') + "&api_key=NhEPr6DtewNp95j4pv4TFaMbE3lHqqs9&limit=1", true);
+    xhttp.open("GET", "https://api.giphy.com/v1/gifs/search?q=" + val.split(' ').join('+') + "&api_key=NhEPr6DtewNp95j4pv4TFaMbE3lHqqs9&limit=1", true);
 
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
